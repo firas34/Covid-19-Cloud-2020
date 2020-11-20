@@ -1,0 +1,97 @@
+<div class="text-center mt-5 ml-2">
+        <h4>
+            <img style="width: 2%;"src="https://firebasestorage.googleapis.com/v0/b/covidstats-eec61.appspot.com/o/covid_logo.png?alt=media&token=f2bfcd0a-edb3-43b1-9b9e-09e6655363ef" alt="Hello">
+            COVID-19
+        </h4>
+        <h5 class="font-weight-bold text-secondary">Live Updates and Statistics</h5>
+
+        <div style="width: 78%" class="container mb-2">
+            <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Corona Virus Summary Worldwide</div>
+        </div>  
+        <div class="row justify-content-center mb-5">
+            <table style="width: 76.5%" class="table table-striped ">
+      
+                <tbody>
+                    <tr class="table-warning">
+                        <td class="text-left">Total Cases</td>
+                        <td class="text-right">{{ global.TotalConfirmed | number}}</td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td class="text-left">New Cases</td>
+                        <td class="text-right">{{ global.NewConfirmed | number }}</td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td class="text-left">Active Cases</td>
+                        <td class="text-right">{{ global.TotalConfirmed - global.TotalDeaths - global.TotalRecovered | number }}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td class="text-left">Total Recovered</td>
+                        <td class="text-right">{{ global.TotalRecovered  | number}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td class="text-left">New Recovered</td>
+                        <td class="text-right">{{ global.NewRecovered | number}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td class="text-left">Recovery Rate</td>
+                        <td class="text-right">{{ (global.TotalRecovered / global.TotalConfirmed)*100 | number:'2.0-2' }}%</td>
+                    </tr>
+                    <tr class="table-danger">
+                        <td class="text-left">Total Deaths</td>
+                        <td class="text-right">{{ global.TotalDeaths | number }}</td>
+                    </tr>
+                    <tr class="table-danger">
+                        <td class="text-left">New Deaths</td>
+                        <td class="text-right">{{ global.NewDeaths | number }}</td>
+                    </tr>
+                    <tr class="table-danger">
+                        <td class="text-left">Mortality Rate</td>
+                        <td class="text-right">{{ (global.TotalDeaths/ global.TotalConfirmed)*100 | number:'1.0-2' }}%</td>
+                    </tr>
+ 
+                </tbody>
+            </table>
+        </div>
+
+    
+        <div style="width: 78%" class="container mb-2">
+            <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Corona Virus Cases Distribution Worldwide</div>
+            <canvas class="wid" id="pieChart"></canvas>
+        </div> 
+
+        <div style="width: 78%" class="container mb-2">
+            <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Daily Corona Virus Cases Worldwide</div>
+            <div>
+                <div style="display: block">
+                  <canvas baseChart
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [chartType]="barChartType"></canvas>
+                </div>  
+              </div>
+
+        </div> 
+
+        <div style="width: 78%" class="container mb-2">
+            <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Total Corona Virus Cases Worldwide</div>
+            <div style="width: 100%" class="flex-item">
+                <div style="display: block;">
+                <canvas baseChart width="700" height="400"
+                            [datasets]="lineChartData"
+                            [labels]="lineChartLabels"
+                            [options]="lineChartOptions"
+                            [colors]="lineChartColors"
+                            [legend]="lineChartLegend"
+                            [chartType]="lineChartType"
+                            [plugins]="lineChartPlugins"></canvas>
+                </div>
+        </div> 
+            
+        
+</div>
+
+<div *ngFor='let country of countries'>
+    <p>country.Country</p>
+</div>
