@@ -1,3 +1,4 @@
+import { CountrySummary } from './../models/countrySummary.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CovidService } from '../covid.service';
 import { Global } from '../models/global.model';
@@ -6,6 +7,7 @@ import { Country } from '../models/country.model';
 import { BaseChartDirective, Color, Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+
 
 
 
@@ -115,7 +117,7 @@ export class WorldwideComponent implements OnInit {
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
   
-
+  countriesSummary: CountrySummary[] = [];
   constructor(private covidService: CovidService) { }
 
 
@@ -172,7 +174,7 @@ export class WorldwideComponent implements OnInit {
     })
 
 
-    // Line Chart: 
+    // Line Chart: --------------------------------------------//
     this.covidService.getGlobalFrom13April().subscribe(data=>{
       // Before Starting, we need to sort the data (TotalConfirmed)
       data.sort(this.predicateBy("TotalConfirmed"));
@@ -188,7 +190,7 @@ export class WorldwideComponent implements OnInit {
         {data: this.newRecoveredLine, label: 'Total Recovered'},
         {data: this.newCasesLine, label: 'Total Cases'},
       ]
-      //Label Array
+      //Line Label Array
       let i = 0;
       let day = new String;
       var dayTest = new String();
@@ -201,11 +203,18 @@ export class WorldwideComponent implements OnInit {
       this.lineChartLabels.reverse();
       
     })
+    //------------------------------------------------------ // 
+    //Cases By Country
 
+    this.covidService.getSummaryByCountry().subscribe(data=>{
+      this.countriesSummary = data["Countries"]; 
+      console.log(this.countriesSummary[0].Country);
+          
+    });
     
-    let x=[{'id': 2},{'id': 0},{'id': 15},{'id': 10},{'id': 1},{'id':5}]
-    x.sort(this.predicateBy("id"));
-    console.log(x);
+
+
+  
     
 
 

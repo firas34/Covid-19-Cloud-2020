@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Country } from './models/country.model';
+import { CountrySummary } from './models/countrySummary.model';
 import { Day } from './models/day.model';
 import { Global } from './models/global.model';
 
@@ -40,6 +41,10 @@ export class CovidService {
     let params = new HttpParams().append('from', startDay);
     params = params.append('to', today);
     return this._http.get<any[]>(url, {params: params});
+  }
+
+  getSummaryByCountry(){
+    return this._http.get<CountrySummary[]>(this.apiUrl);
   }
 
   getCountries(){

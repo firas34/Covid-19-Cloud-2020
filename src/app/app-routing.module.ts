@@ -2,10 +2,13 @@ import { WorldwideComponent } from './worldwide/worldwide.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SigninComponent } from './signin/signin.component';
+import { CountryComponent } from './country/country.component';
 
 const routes: Routes = [
   {path: "signin", component: SigninComponent},
   {path: "", component: WorldwideComponent},
+  //{path: "country", component: CountryComponent},
+  {path: ":country", component: CountryComponent},
   {path: "", pathMatch: "full", redirectTo: ""},
   {path: "**", redirectTo: "signin"}
 ];
