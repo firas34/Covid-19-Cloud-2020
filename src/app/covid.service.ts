@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { Country } from './models/country.model';
 import { CountrySummary } from './models/countrySummary.model';
 import { Day } from './models/day.model';
 import { Global } from './models/global.model';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,9 @@ export class CovidService {
   countriesUrl='https://api.covid19api.com/countries';
   dayOneUrl = 'https://api.covid19api.com/dayone/country/';
 
+  private countrySummary: CountrySummary;
 
-  constructor( private _http: HttpClient) { }
+  constructor( private _http: HttpClient, private firestore: AngularFirestore) { }
 
   getGlobal(){
     return this._http.get<Global>(this.apiUrl);
@@ -53,6 +55,19 @@ export class CovidService {
 
   getCountryStats(slug: String){
     return this._http.get<Day[]>(this.dayOneUrl+slug);
+  }
+
+  updateCountrySummary(countrySummary: CountrySummary){
+    this.firestore.collection("countriesSummary").doc(countrySummary.Slug).set({
+      Country: countrySummary.Country,
+      Slug: countrySummary.Slug,
+      NewConfirmed: countrySummary.NewConfirmed,
+      TotalConfirmed: countrySummary.TotalConfirmed,
+      NewDeaths: countrySummary.NewDeaths,
+      TotalDeaths: countrySummary.TotalDeaths,
+      NewRecovered: countrySummary.NewRecovered,
+      TotalRecovered: countrySummary.TotalRecovered
+    }, {merge: true});
   }
 
 

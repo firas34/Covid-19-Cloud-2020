@@ -1,8 +1,8 @@
 <div class="text-center mt-5 ml-2">
-        <h4>
+        <h3>
             <img style="width: 2%;"src="https://firebasestorage.googleapis.com/v0/b/covidstats-eec61.appspot.com/o/covid_logo.png?alt=media&token=f2bfcd0a-edb3-43b1-9b9e-09e6655363ef" alt="Hello">
             COVID-19
-        </h4>
+        </h3>
         <h5 class="font-weight-bold text-secondary">Live Updates and Statistics</h5>
 
         <div style="width: 78%" class="container mb-2">
@@ -108,7 +108,7 @@
                 </thead>
                 <tbody *ngFor='let country of countriesSummary'>
                     <tr>
-                        <td class="bg-secondary text-white text-left"> <a style="color: white;" routerLink="/{{country.Country}}">{{country.Country}}</a> </td>
+                        <td class="bg-secondary text-white text-left"> <a style="color: white;" routerLink="/{{country.Slug}}">{{country.Country}}</a> </td>
                         <td class="table-warning text-right">{{country.NewConfirmed | number}}</td>
                         <td class="table-warning text-right">{{country.TotalConfirmed | number}}</td>
                         <td class="table-primary text-right">{{country.NewRecovered | number}}</td>

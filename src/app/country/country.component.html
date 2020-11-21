@@ -1,1 +1,103 @@
-<p>country works!</p>
+<div class="text-center mt-5 ml-2">
+    <h3>
+        <img style="width: 2%;"src="https://firebasestorage.googleapis.com/v0/b/covidstats-eec61.appspot.com/o/covid_logo.png?alt=media&token=f2bfcd0a-edb3-43b1-9b9e-09e6655363ef" alt="Hello">
+        COVID-19
+    </h3>
+    <h5 class="font-weight-bold text-secondary">Live Updates and Statistics</h5>
+
+    <div  style="width: 78%;color: white; " class="font-weight-bold p-2 bg-dark text-center container mb-2">
+        <a  style="color: blue;" routerLink="/"> Worldwide </a> > {{countrySummary.Country}}
+    </div> 
+
+    <div style="width: 78%" class="container mb-2">
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Corona Virus Summary in  {{countrySummary.Country}}</div>
+    </div>  
+    <div class="row justify-content-center mb-5">
+        <table style="width: 76.5%;" class="table table-striped ">
+  
+            <tbody>
+                <tr class="table-warning">
+                    <td class="text-left">Total Cases</td>
+                    <td class="text-right">{{ countrySummary.TotalConfirmed | number}}</td>
+                </tr>
+                <tr class="table-warning">
+                    <td class="text-left">New Cases</td>
+                    <td class="text-right">{{ countrySummary.NewConfirmed | number }}</td>
+                </tr>
+                <tr class="table-warning">
+                    <td class="text-left">Active Cases</td>
+                    <td class="text-right">{{ countrySummary.TotalConfirmed - countrySummary.TotalDeaths - countrySummary.TotalRecovered | number }}</td>
+                </tr>
+                <tr class="table-primary">
+                    <td class="text-left">Total Recovered</td>
+                    <td class="text-right">{{ countrySummary.TotalRecovered  | number}}</td>
+                </tr>
+                <tr class="table-primary">
+                    <td class="text-left">New Recovered</td>
+                    <td class="text-right">{{ countrySummary.NewRecovered | number}}</td>
+                </tr>
+                <tr class="table-primary">
+                    <td class="text-left">Recovery Rate</td>
+                    <td class="text-right">{{ (countrySummary.TotalRecovered / countrySummary.TotalConfirmed)*100 | number:'2.0-2' }}%</td>
+                </tr>
+                <tr class="table-danger">
+                    <td class="text-left">Total Deaths</td>
+                    <td class="text-right">{{ countrySummary.TotalDeaths | number }}</td>
+                </tr>
+                <tr class="table-danger">
+                    <td class="text-left">New Deaths</td>
+                    <td class="text-right">{{ countrySummary.NewDeaths | number }}</td>
+                </tr>
+                <tr class="table-danger">
+                    <td class="text-left">Mortality Rate</td>
+                    <td class="text-right">{{ (countrySummary.TotalDeaths/ countrySummary.TotalConfirmed)*100 | number:'1.0-2' }}%</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div style="width: 78%" class="container mb-2">
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Corona Virus Cases Distribution in {{countrySummary.Country}}</div>
+        <canvas class="wid" id="pieChart"></canvas>
+    </div> 
+
+<!--     <div style="width: 78%" class="container mb-2 mt-5">
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Daily Corona Virus Cases in {{countrySummary.Country}}</div>
+        <div>
+            <div style="display: block">
+              <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"></canvas>
+            </div>  
+          </div>
+
+    </div> 
+
+    <div style="width: 78%" class="container mb-2 mt-5">
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Total Corona Virus Cases in {{countrySummary.Country}}</div>
+        <div style="width: 100%" class="flex-item">
+            <div style="display: block;">
+            <canvas baseChart width="700" height="400"
+                        [datasets]="lineChartData"
+                        [labels]="lineChartLabels"
+                        [options]="lineChartOptions"
+                        [colors]="lineChartColors"
+                        [legend]="lineChartLegend"
+                        [chartType]="lineChartType"
+                        [plugins]="lineChartPlugins"></canvas>
+            </div>
+    </div> 
+ -->
+    
+<footer>
+<div  class="p-3 bg-light text-center container mb-2">
+    Data Source:  <a href="https://covid19api.com"> COVID-19 API / Johns Hopkins CSSE</a>
+</div> 
+</footer>
+
+

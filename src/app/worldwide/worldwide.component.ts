@@ -29,8 +29,6 @@ export class WorldwideComponent implements OnInit {
     }
  }  
   global: Global=new Global;
-  PieChart=[];
-  pieData=[];
   countries: Country[];
   slugs: string[] =  [];
   s: string[]=[];
@@ -38,7 +36,10 @@ export class WorldwideComponent implements OnInit {
   newDeaths: number[]=[];
   newRecovered: number[]=[];
   newCases: number[]=[];
-  //Used in Bar chart representation 
+  // Pie Chart
+  PieChart=[];
+  pieData=[];
+  //Bar chart  
   public barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -46,9 +47,9 @@ export class WorldwideComponent implements OnInit {
   public barChartLabels=[];
   public barChartType = 'bar';
   public barChartLegend = true;
-  public barChartData=[]
+  public barChartData=[];
 
-  //Used in Line chart representation 
+  //Line chart 
   newDeathsLine: number[]=[];
   newRecoveredLine: number[]=[];
   newCasesLine: number[]=[];
@@ -207,11 +208,9 @@ export class WorldwideComponent implements OnInit {
     //Cases By Country
 
     this.covidService.getSummaryByCountry().subscribe(data=>{
-      this.countriesSummary = data["Countries"]; 
-      console.log(this.countriesSummary[0].Country);
-          
+      this.countriesSummary = data["Countries"];          
     });
-    
+    //------------------------------------------------------ // 
 
 
   
