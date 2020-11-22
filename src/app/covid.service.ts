@@ -66,8 +66,13 @@ export class CovidService {
       NewDeaths: countrySummary.NewDeaths,
       TotalDeaths: countrySummary.TotalDeaths,
       NewRecovered: countrySummary.NewRecovered,
-      TotalRecovered: countrySummary.TotalRecovered
+      TotalRecovered: countrySummary.TotalRecovered,
+      Date: countrySummary.Date
     }, {merge: true});
+  }
+
+  getCountrySummary(slug: string){
+    return this.firestore.collection("countriesSummary").doc(slug).valueChanges();
   }
 
 

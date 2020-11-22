@@ -40,49 +40,75 @@ export class CountryComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params=>{
       this.countrySlug = params.get('country');
-    })
+    })     
 
     //Cases By Country
-    
+    var todayDate = new Date().toISOString().slice(0,10);
+    this.covidService.getCountrySummary(this.countrySlug).subscribe((data:CountrySummary)=>{
 
-    this.covidService.getSummaryByCountry().subscribe(data=>{ 
-      
-      this.countryData = this.findCountrySummary(this.countrySlug,data['Countries']);
-      this.countrySummary.Country =  this.countryData['Country'];
-      this.countrySummary.Slug =  this.countryData['Slug'];
-      this.countrySummary.NewConfirmed =  this.countryData['NewConfirmed'];
-      this.countrySummary.TotalConfirmed =  this.countryData['TotalConfirmed'];
-      this.countrySummary.NewDeaths =  this.countryData['NewDeaths'];
-      this.countrySummary.TotalDeaths =  this.countryData['TotalDeaths'];
-      this.countrySummary.NewRecovered =  this.countryData['NewRecovered'];
-      this.countrySummary.TotalRecovered =  this.countryData['TotalRecovered'];
-      this.covidService.updateCountrySummary(this.countrySummary);    
-      //console.log(this.findCountrySummary('france', data['Countries']));
-
-      //Pie Chart
-    this.pieData=[this.countrySummary.TotalDeaths, this.countrySummary.TotalRecovered, this.countrySummary.TotalConfirmed - this.countrySummary.TotalDeaths - this.countrySummary.TotalRecovered];
-    this.PieChart.push(new Chart('pieChart', {
-      type: 'pie',
-      data:{
-        labels:["Dead Cases","Recovered Cases", "Active Cases"],
-        datasets:[{
-          label: 'vote now',
-          data: this.pieData,
-          backgroundColor:[
-            'rgba(255, 158, 255,0.9)',
-            'rgba(158, 208, 255,0.9)',
-            'rgba(255, 239, 158,0.9)',
-          ]
-        }]
-      },
-      options:{
-        title:{
-          display: true
-        }
+      if (data != undefined && data['Date'].slice(0,10)==todayDate){
+        console.log('RETREIVE FROM FIRESTORE');
+          this.countrySummary = data;
+          console.log(this.countrySummary);
+          //Pie Chart
+          this.pieData=[this.countrySummary.TotalDeaths, this.countrySummary.TotalRecovered, this.countrySummary.TotalConfirmed - this.countrySummary.TotalDeaths - this.countrySummary.TotalRecovered];
+          this.PieChart.push(new Chart('pieChart', {
+            type: 'pie',
+            data:{
+              labels:["Dead Cases","Recovered Cases", "Active Cases"],
+              datasets:[{
+                label: 'vote now',
+                data: this.pieData,
+                backgroundColor:[
+                  'rgba(255, 158, 255,0.9)',
+                  'rgba(158, 208, 255,0.9)',
+                  'rgba(255, 239, 158,0.9)',
+                ]
+              }]
+            },
+            options:{
+              title:{
+                display: true
+              }
+            }
+          }));
+        
+      }else{
+        // Update Database from API
+        console.log('RETRIEVE FROM API & UPDATE DATABASE');
+        this.covidService.getSummaryByCountry().subscribe(data=>{ 
+          this.countrySummary = this.findCountrySummary(this.countrySlug,data['Countries']);
+          
+          this.covidService.updateCountrySummary(this.countrySummary);    
+         /*  //Pie Chart
+          this.pieData=[this.countrySummary.TotalDeaths, this.countrySummary.TotalRecovered, this.countrySummary.TotalConfirmed - this.countrySummary.TotalDeaths - this.countrySummary.TotalRecovered];
+          this.PieChart.push(new Chart('pieChart', {
+            type: 'pie',
+            data:{
+              labels:["Dead Cases","Recovered Cases", "Active Cases"],
+              datasets:[{
+                label: 'vote now',
+                data: this.pieData,
+                backgroundColor:[
+                  'rgba(255, 158, 255,0.9)',
+                  'rgba(158, 208, 255,0.9)',
+                  'rgba(255, 239, 158,0.9)',
+                ]
+              }]
+            },
+            options:{
+              title:{
+                display: true
+              }
+            }
+          })) */
+          
+        });  
+        
       }
-    }))
       
-    });              
+    })
+                
     
     
 

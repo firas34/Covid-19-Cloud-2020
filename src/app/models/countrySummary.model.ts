@@ -1,5 +1,6 @@
 export class CountrySummary {
     Country: String;
+    Date: string;
     Slug: string;
     NewConfirmed: number;
     TotalConfirmed: number;
@@ -7,4 +8,5 @@ export class CountrySummary {
     TotalDeaths: number;
     NewRecovered: number;
     TotalRecovered: number;
+    Name: string;
 }
