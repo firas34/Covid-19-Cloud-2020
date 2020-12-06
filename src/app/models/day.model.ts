@@ -3,4 +3,5 @@ export class Day{
     Deaths:number;
     Recovered: number;
     Active: number;
+    Date: string;
 }

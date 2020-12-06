@@ -18,6 +18,9 @@ import * as pluginAnnotations from 'chartjs-plugin-annotation';
 })
 export class WorldwideComponent implements OnInit {
 
+  // if user is signed in:
+  isUser: boolean = false;
+  
   predicateBy(prop){
     return function(a,b){
        if (a[prop] > b[prop]){
@@ -123,6 +126,16 @@ export class WorldwideComponent implements OnInit {
 
 
   ngOnInit(): void {
+    // Used to check if user is signed in:
+    this.covidService.userCheck.subscribe(user=>{
+      // if it is a user ==> the user != null 
+      if (user){
+        this.isUser = true;
+      }else{
+        this.isUser = false;
+      }
+    });
+  
     this.covidService.getGlobal().subscribe(data => {
       this.global = data["Global"];
       this.pieData=[this.global.TotalDeaths, this.global.TotalRecovered, this.global.TotalConfirmed - this.global.TotalDeaths - this.global.TotalRecovered];
@@ -164,14 +177,14 @@ export class WorldwideComponent implements OnInit {
         {data: this.newCases, label: 'Daily New Cases'},
       ]
       // Preparing the Bar Chart Label
-      for (let i=0;i<7;++i){
+      for (let i=0;i<=7;++i){
         let day = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
         this.barChartLabels.push(day);
       }
       //Final step to get the right labels list
       this.barChartLabels.reverse();
-      let day = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
-      this.barChartLabels.push(day);
+      /* let day = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
+      this.barChartLabels.push(day); */
     })
 
 
@@ -217,6 +230,13 @@ export class WorldwideComponent implements OnInit {
     
 
 
+  }
+
+  key: string = 'Country';
+  reverse: boolean = false;
+  sort(key){
+    this.key=key;
+    this.reverse = !this.reverse;
   }
   
 }

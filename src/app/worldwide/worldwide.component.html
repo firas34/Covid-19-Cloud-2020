@@ -1,3 +1,8 @@
+<div *ngIf="isUser" >
+    <app-signin></app-signin>
+</div>
+
+
 <div class="text-center mt-5 ml-2">
         <h3>
             <img style="width: 2%;"src="https://firebasestorage.googleapis.com/v0/b/covidstats-eec61.appspot.com/o/covid_logo.png?alt=media&token=f2bfcd0a-edb3-43b1-9b9e-09e6655363ef" alt="Hello">
@@ -97,16 +102,17 @@
             <table style="width: 98%;"  class="table table-striped ">
                 <thead>
                     <tr>
-                        <th class="bg-secondary text-white">Country</th>
-                        <th class="table-warning">New Cases</th>
-                        <th class="table-warning">Total Cases</th>
-                        <th class="table-primary">New Recoveries</th>
-                        <th class="table-primary">Total Recoveries</th>
-                        <th class="table-danger">New Deaths</th>
-                        <th class="table-danger">Total Deaths</th>
+                        <th (click)="sort('Country')" class="bg-secondary text-white">Country &nbsp;<i class="fa fa-chevron-circle-down" style="font-size:24px"></i></th>
+                        <th (click)="sort('NewConfirmed')" class="table-warning">New Cases</th>
+                        <th (click)="sort('TotalConfirmed')" class="table-warning">Total Cases</th>
+                        <th (click)="sort('NewRecovered')" class="table-primary">New Recoveries</th>
+                        <th (click)="sort('TotalRecovered')" class="table-primary">Total Recoveries</th>
+                        <th (click)="sort('NewDeaths')" class="table-danger">New Deaths</th>
+                        <th (click)="sort('TotalDeaths')" class="table-danger">Total Deaths</th>
+                        
                     </tr>
                 </thead>
-                <tbody *ngFor='let country of countriesSummary'>
+                <tbody *ngFor='let country of countriesSummary | orderBy: key: reverse'>
                     <tr>
                         <td class="bg-secondary text-white text-left"> <a style="color: white;" routerLink="/{{country.Slug}}">{{country.Country}}</a> </td>
                         <td class="table-warning text-right">{{country.NewConfirmed | number}}</td>

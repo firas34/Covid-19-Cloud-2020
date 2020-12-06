@@ -13,13 +13,14 @@ import { SigninComponent } from './signin/signin.component';
 import { WorldwideComponent } from './worldwide/worldwide.component';
 import { ChartsModule } from 'ng2-charts';
 import { CountryComponent } from './country/country.component';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
     WorldwideComponent,
-    CountryComponent,
+    CountryComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +28,8 @@ import { CountryComponent } from './country/country.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    Ng2OrderModule
   ],
   providers: [CovidService],
   bootstrap: [AppComponent]
