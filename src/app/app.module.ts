@@ -14,13 +14,17 @@ import { WorldwideComponent } from './worldwide/worldwide.component';
 import { ChartsModule } from 'ng2-charts';
 import { CountryComponent } from './country/country.component';
 import { Ng2OrderModule } from 'ng2-order-pipe';
+import { AddNewsComponent } from './add-news/add-news.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
     WorldwideComponent,
-    CountryComponent
+    CountryComponent,
+    AddNewsComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,8 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     AngularFirestoreModule,
     HttpClientModule,
     ChartsModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+    FormsModule
   ],
   providers: [CovidService],
   bootstrap: [AppComponent]

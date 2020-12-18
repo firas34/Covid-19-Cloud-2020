@@ -7,6 +7,7 @@ import { Country } from '../models/country.model';
 import { BaseChartDirective, Color, Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import { User } from '../models/user.model';
 
 
 
@@ -18,6 +19,7 @@ import * as pluginAnnotations from 'chartjs-plugin-annotation';
 })
 export class WorldwideComponent implements OnInit {
 
+  user:User;
   // if user is signed in:
   isUser: boolean = false;
   
@@ -126,16 +128,12 @@ export class WorldwideComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // Used to check if user is signed in:
-    this.covidService.userCheck.subscribe(user=>{
-      // if it is a user ==> the user != null 
-      if (user){
-        this.isUser = true;
-      }else{
-        this.isUser = false;
-      }
-    });
-  
+    this.user = this.covidService.getUser();
+    if(this.covidService.userSignedIn()){
+      this.isUser = true;
+    }else{
+      this.isUser=false;
+    }
     this.covidService.getGlobal().subscribe(data => {
       this.global = data["Global"];
       this.pieData=[this.global.TotalDeaths, this.global.TotalRecovered, this.global.TotalConfirmed - this.global.TotalDeaths - this.global.TotalRecovered];

@@ -10,6 +10,8 @@ import firebase  from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth'; 
 import { User } from './models/user.model';
 import { Router } from '@angular/router';
+import { News } from './models/news.model';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +23,12 @@ export class CovidService {
 
   private countrySummary: CountrySummary;
   private user: User;
-  // To check if the user is logged in 
-  userCheck: Observable<firebase.User>;
 
   constructor( private _http: HttpClient, private firestore: AngularFirestore,private afAuth: AngularFireAuth, private router: Router) {
-    this.userCheck = afAuth.user;
    }
 
   async signInWithGoogle(){
+    this.router.navigate(["signin"]);
     const credentials = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     this.user = {
       uid: credentials.user.uid,
@@ -37,7 +37,7 @@ export class CovidService {
     };
     console.log(credentials);
     
-    //localStorage.setItem("user", JSON.stringify(this.user));
+    localStorage.setItem("user", JSON.stringify(this.user));
     this.updateUserData();
     this.router.navigate([""]);
   }
@@ -48,6 +48,22 @@ export class CovidService {
       email: this.user.email
     },{merge: true});
 
+  }
+
+  getUser(){
+    this.user= JSON.parse(localStorage.getItem("user"));
+    return this.user;
+  }
+
+  userSignedIn(): boolean{
+    return JSON.parse(localStorage.getItem("user")) != null;
+  }
+
+  signOut(){
+    this.afAuth.signOut();
+    localStorage.removeItem("user");
+    this.user=null;
+    this.router.navigate(["signin"]);
   }
 
   getGlobal(){
@@ -141,6 +157,17 @@ export class CovidService {
 
   getCountryBy7Days(slug: string){
     return this.firestore.collection("countries").doc(slug).collection('data').doc('countryBy7Days').valueChanges();
+  }
+
+  addNews(news:News){
+    //Document with random uuidv4 
+    // we can replace uuidv4 by country slug
+    this.firestore.collection("news").doc(uuidv4()).set({
+      user: news.User,
+      date: news.Date,
+      description: news.Description,
+      country: news.Country
+    });
   }
 
 

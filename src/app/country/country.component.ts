@@ -115,6 +115,8 @@ export class CountryComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    //force the page to be displayed from the TOP
+    window.scrollTo(0, 0);
     this.route.paramMap.subscribe(params=>{
       this.countrySlug = params.get('country');
     })     

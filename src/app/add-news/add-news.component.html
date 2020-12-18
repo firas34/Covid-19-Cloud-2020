@@ -1,0 +1,30 @@
+<div  class="text-center mt-5 ml-2">
+    <h3>Add News</h3>
+
+    <div  *ngIf="alert" class="container mb-2 alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Your data has been saved successfully.
+    </div>
+
+    <div style="width: 78%" class="container mb-2">
+    <form class="text-center">
+        <div class="form-group ">
+            <label for="sel1">Select Country:</label>
+            <select class="form-control" [(ngModel)]="newsModel.Country" [ngModelOptions]="{standalone: true}" id="sel1">
+            <option *ngFor='let country of countries'>{{country}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="comment">News</label>
+            <textarea [(ngModel)]="newsModel.Description" [ngModelOptions]="{standalone: true}" class="form-control" cols="15" rows="5" id="comment"></textarea>
+        </div>
+
+        <button class="btn btn-primary" (click)="submit()">Submit</button>
+    </form>
+</div>  
+
+</div>
+
+
+
+
