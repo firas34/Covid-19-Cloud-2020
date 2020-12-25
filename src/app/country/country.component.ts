@@ -6,6 +6,7 @@ import { CovidService } from '../covid.service';
 import { Chart, ChartDataSets, ChartOptions, ChartType } from 'chart.js' ;
 import { BaseChartDirective, Color, Label } from 'ng2-charts';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-country',
@@ -13,6 +14,12 @@ import * as pluginAnnotations from 'chartjs-plugin-annotation';
   styleUrls: ['./country.component.css']
 })
 export class CountryComponent implements OnInit {
+
+  //For Challenge2: News
+  newsDescriptions:string[];
+  newsDates:string[];
+  newsUsers:User[];
+  newsLength:number=0;
 
   countrySlug: string;
   countrySummary: CountrySummary = new CountrySummary; // Everytime, we need to initialize VARIALBLE !
@@ -114,12 +121,35 @@ export class CountryComponent implements OnInit {
       }
     }
   }
+
+
+  //Used in the loop to display News
+  arrayOne(n: number): any[] {
+    return Array(n);
+  }
+
+  
   ngOnInit(): void {
+
+    
     //force the page to be displayed from the TOP
     window.scrollTo(0, 0);
     this.route.paramMap.subscribe(params=>{
       this.countrySlug = params.get('country');
     })     
+
+
+    
+    //For challenge2: News
+    this.covidService.getNews(this.countrySlug).subscribe(data=>{
+      console.log(data);
+      if (data != null){
+        this.newsDescriptions=data['description'];
+        this.newsDates=data['date'];
+        this.newsUsers=data['user'];
+        this.newsLength=this.newsDescriptions.length;
+      }
+    });
 
     //Cases By Country
     var todayDate = new Date().toISOString().slice(0,10);

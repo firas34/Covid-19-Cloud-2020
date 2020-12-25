@@ -2,9 +2,6 @@
     <app-signin></app-signin>
 </div>
 
-<div>
-    <app-add-news></app-add-news>
-</div>
 
 <div class="text-center mt-5 ml-2">
         <h3>
@@ -12,6 +9,30 @@
             COVID-19
         </h3>
         <h5 class="font-weight-bold text-secondary">Live Updates and Statistics</h5>
+
+
+        <div *ngIf="isUser">
+            <app-add-news></app-add-news>
+        </div>
+        
+
+        <!-- Display News -->
+        <div style="width: 78%" class="container mb-2">
+            <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Worldwide News: </div>
+        </div>  
+        <div class="card mb-5" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;">
+        <div *ngFor="let item of arrayOne(newsLength); let i = index;" class=" text-left mt-5 ml-2">
+            <div class="card" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;">
+                <div class="card-body">
+                  <div class="row">
+                    <h5 class="text-left col-6" style="color: brown;">{{newsUsers[i]['displayName']}}</h5>
+                    <h5 class="text-right col-6" style="color: darkblue;">{{newsDates[i]}}</h5>
+                  </div>
+                  <p class="card-text">{{ newsDescriptions[i] }}</p>
+                </div>
+              </div>
+        </div>
+    </div>
 
         <div style="width: 78%" class="container mb-2">
             <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Corona Virus Summary Worldwide</div>

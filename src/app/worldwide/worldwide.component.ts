@@ -8,6 +8,7 @@ import { BaseChartDirective, Color, Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import { User } from '../models/user.model';
+import { News } from '../models/news.model';
 
 
 
@@ -19,10 +20,17 @@ import { User } from '../models/user.model';
 })
 export class WorldwideComponent implements OnInit {
 
+  //For Challenge2: News
+  newsDescriptions:string[];
+  newsDates:string[];
+  newsUsers:User[];
+  newsLength:number=0;
+
   user:User;
   // if user is signed in:
   isUser: boolean = false;
-  
+  day = new Date(Date.now()).toString().split(' ').splice(1,4).reverse().join(' ');
+  news:News[]; //[new News(this.covidService.getUser(),this.day,"News","worldwide")]
   predicateBy(prop){
     return function(a,b){
        if (a[prop] > b[prop]){
@@ -126,8 +134,22 @@ export class WorldwideComponent implements OnInit {
   countriesSummary: CountrySummary[] = [];
   constructor(private covidService: CovidService) { }
 
+  //Used in the loop to display News
+  arrayOne(n: number): any[] {
+    return Array(n);
+  }
 
   ngOnInit(): void {
+
+    //For challenge2: News
+    this.covidService.getNews("worldwide").subscribe(data=>{
+      console.log(data);
+      this.newsDescriptions=data['description'];
+      this.newsDates=data['date'];
+      this.newsUsers=data['user'];
+      this.newsLength=this.newsDescriptions.length;
+    });
+
     this.user = this.covidService.getUser();
     if(this.covidService.userSignedIn()){
       this.isUser = true;
@@ -223,6 +245,8 @@ export class WorldwideComponent implements OnInit {
     });
     //------------------------------------------------------ // 
 
+    
+
 
   
     
@@ -238,3 +262,4 @@ export class WorldwideComponent implements OnInit {
   }
   
 }
+

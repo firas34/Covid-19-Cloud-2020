@@ -1,12 +1,14 @@
-<div  class="text-center mt-5 ml-2">
-    <h3>Add News</h3>
+<div  class="text-danger mt-5 ml-2">
+    <div style="width: 78%" class="container mb-2">
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Add News: </div>
+    </div>  
 
     <div  *ngIf="alert" class="container mb-2 alert alert-success alert-dismissible fade show" role="alert">
         <strong>Success!</strong> Your data has been saved successfully.
     </div>
 
     <div style="width: 78%" class="container mb-2">
-    <form class="text-center">
+    <form class="text-left">
         <div class="form-group ">
             <label for="sel1">Select Country:</label>
             <select class="form-control" [(ngModel)]="newsModel.Country" [ngModelOptions]="{standalone: true}" id="sel1">
@@ -19,7 +21,7 @@
             <textarea [(ngModel)]="newsModel.Description" [ngModelOptions]="{standalone: true}" class="form-control" cols="15" rows="5" id="comment"></textarea>
         </div>
 
-        <button class="btn btn-primary" (click)="submit()">Submit</button>
+        <button class="btn btn-primary mb-3" (click)="submit()">Submit</button>
     </form>
 </div>  
 

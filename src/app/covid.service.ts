@@ -77,7 +77,7 @@ export class CovidService {
     today = String(today) + 'T00:00:00Z';
     sevenDaysAgo = String(sevenDaysAgo) + 'T00:00:00Z';
     var url = 'https://api.covid19api.com/world';
-    let params = new HttpParams().append('from', sevenDaysAgo);
+    let params = new HttpParams().append('from', sevenDaysAgo).set('requestCert', 'false');
     params = params.append('to', today);
     return this._http.get<any[]>(url, {params: params});
   }
@@ -159,15 +159,50 @@ export class CovidService {
     return this.firestore.collection("countries").doc(slug).collection('data').doc('countryBy7Days').valueChanges();
   }
 
+
+  getNews(slug:string){
+    return this.firestore.collection("news").doc(slug).valueChanges();
+  }
+
   addNews(news:News){
-    //Document with random uuidv4 
-    // we can replace uuidv4 by country slug
-    this.firestore.collection("news").doc(uuidv4()).set({
-      user: news.User,
-      date: news.Date,
-      description: news.Description,
-      country: news.Country
+    let data1;
+    //Get old news, push the new one to the List
+    this.getNews(news.Country).subscribe(data=>{
+      data1 = data;
+     
     });
+
+    // After 1 sec, the data from above is ready 
+    setTimeout( () => { 
+
+      if(data1 == null ){
+        console.log("VIDE");
+        
+         this.firestore.collection("news").doc(news.Country).set({
+           user: [news.User],
+           date: [news.Date],
+           description: [news.Description],
+           country: news.Country
+         }, {merge: true});
+       }else{
+         let user = data1['user'];
+         user.push(news.User);
+         let date = data1['date'];
+         date.push(news.Date);
+         let description = data1['description'];
+         description.push(news.Description);
+         this.firestore.collection("news").doc(news.Country).set({
+           user: user,
+           date: date,
+           description: description,
+           country: news.Country
+         }, {merge: true});
+       }
+    }, 1000 );
+
+
+    
+    
   }
 
 

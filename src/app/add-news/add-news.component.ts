@@ -11,7 +11,7 @@ import { News } from '../models/news.model';
 export class AddNewsComponent implements OnInit {
 
   country: string; // Slug
-  day = new Date(Date.now()).toString().split(' ').splice(1,4).reverse().join(' ');
+  day = new Date().toISOString().slice(0, 10);
   countries:string[]=[]; // List of all slugs
   newsModel: News= new News(this.covidService.getUser(),this.day,"News","worldwide");
   alert: boolean;
@@ -30,7 +30,7 @@ export class AddNewsComponent implements OnInit {
   }
 
   submit(){
-    this.covidService.addNews(this.newsModel);
+    this.covidService.addNews(this.newsModel)
     this.alert=true;
     console.log(this.newsModel);
   }
