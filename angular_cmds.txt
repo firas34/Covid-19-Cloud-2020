@@ -1,0 +1,19 @@
+- to create a project: ng new hello-world
+- to run : ng serve
+- to generate a component & add it to app.module.ts: ng g c course
+
+<ul>
+    <li *ngFor="let book of books">
+        {{ book }}
+    </li>
+</ul>
+
+--
+books;
+constructor(service: BookService){
+	this.books = service.getBooks();
+}
+
+--- create a service ---
+
+ng g s email

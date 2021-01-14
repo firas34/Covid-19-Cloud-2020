@@ -154,11 +154,12 @@ export class CountryComponent implements OnInit {
     //Cases By Country
     var todayDate = new Date().toISOString().slice(0,10);
     this.covidService.getCountrySummary(this.countrySlug).subscribe((data:CountrySummary)=>{
-
+      
       if (data != undefined && data['Date'].slice(0,10)==todayDate){
+
         console.log('RETREIVE FROM FIRESTORE');
           this.countrySummary = data; 
-          //Pie Chart
+          //Pie Chart          
           this.pieData=[this.countrySummary.TotalDeaths, this.countrySummary.TotalRecovered, this.countrySummary.TotalConfirmed - this.countrySummary.TotalDeaths - this.countrySummary.TotalRecovered];
           this.PieChart.push(new Chart('pieChart', {
             type: 'pie',
@@ -195,25 +196,7 @@ export class CountryComponent implements OnInit {
     })
 
 
-    /* this.covidService.getAllByCountryBy8Days(this.countrySlug).subscribe(data=>{
-      for (var i=1;i < data.length;++i){
-        this.newDeaths.push(data[i]["Deaths"]-data[i-1]["Deaths"]);
-        this.newCases.push(data[i]["Confirmed"]-data[i-1]["Confirmed"]);
-        this.newRecovered.push(data[i]["Recovered"]-data[i-1]["Recovered"]);
-      }
-      this.barChartData = [
-        {data: this.newDeaths, label: 'Daily Deaths'},
-        {data: this.newRecovered, label: 'Daily Recovered'},
-        {data: this.newCases, label: 'Daily New Cases'},
-      ]
-      // Preparing the Bar Chart Label
-      for (let i=0;i<=7;++i){
-        let day = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
-        this.barChartLabels.push(day);
-      }
-      //Final step to get the right labels list
-      this.barChartLabels.reverse();
-    }); */
+
 
     var todayDate = new Date().toISOString().slice(0,10);
     this.covidService.getCountryBy7Days(this.countrySlug,).subscribe(data=>{
@@ -280,13 +263,6 @@ export class CountryComponent implements OnInit {
       this.lineChartLabels.reverse();
       
     });
-                
-    
-    
-
-    
+                   
   }
-
-
-
 }

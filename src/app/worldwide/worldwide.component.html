@@ -11,7 +11,7 @@
         <h5 class="font-weight-bold text-secondary">Live Updates and Statistics</h5>
 
 
-        <div *ngIf="isUser">
+        <div *ngIf="isEligibleUser">
             <app-add-news></app-add-news>
         </div>
         
@@ -20,9 +20,9 @@
         <div style="width: 78%" class="container mb-2">
             <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">Worldwide News: </div>
         </div>  
-        <div class="card mb-5" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;">
-        <div *ngFor="let item of arrayOne(newsLength); let i = index;" class=" text-left mt-5 ml-2">
-            <div class="card" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;">
+        <div class="card mb-5" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;background-color: #f5faff;">
+        <div *ngFor="let item of arrayOne(newsLength); let i = index;" class=" text-left mt-1 ml-2">
+            <div class="card" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%; background-color:#dbedff;border-radius: 15px;">
                 <div class="card-body">
                   <div class="row">
                     <h5 class="text-left col-6" style="color: brown;">{{newsUsers[i]['displayName']}}</h5>
@@ -126,13 +126,13 @@
             <table style="width: 98%;"  class="table table-striped ">
                 <thead>
                     <tr>
-                        <th (click)="sort('Country')" class="bg-secondary text-white">Country &nbsp;<i class="fa fa-chevron-circle-down" style="font-size:24px"></i></th>
-                        <th (click)="sort('NewConfirmed')" class="table-warning">New Cases</th>
-                        <th (click)="sort('TotalConfirmed')" class="table-warning">Total Cases</th>
-                        <th (click)="sort('NewRecovered')" class="table-primary">New Recoveries</th>
-                        <th (click)="sort('TotalRecovered')" class="table-primary">Total Recoveries</th>
-                        <th (click)="sort('NewDeaths')" class="table-danger">New Deaths</th>
-                        <th (click)="sort('TotalDeaths')" class="table-danger">Total Deaths</th>
+                        <th (click)="sort('Country')" class="bg-secondary text-white">Country <br> <button class="bg-secondary border-0">&#8645;</button> </th>
+                        <th (click)="sort('NewConfirmed')" class="table-warning">New Cases <br> <button class="table-warning border-0">&#8645;</button> </th>
+                        <th (click)="sort('TotalConfirmed')" class="table-warning">Total Cases <br> <button class="table-warning border-0">&#8645;</button> </th>
+                        <th (click)="sort('NewRecovered')" class="table-primary">New Recoveries <br> <button class="table-primary border-0">&#8645;</button> </th>
+                        <th (click)="sort('TotalRecovered')" class="table-primary">Total Recoveries <br> <button class="table-primary border-0">&#8645;</button> </th>
+                        <th (click)="sort('NewDeaths')" class="table-danger">New Deaths <br> <button class="table-danger border-0">&#8645;</button> </th>
+                        <th (click)="sort('TotalDeaths')" class="table-danger">Total Deaths <br> <button class="table-danger border-0">&#8645;</button></th>
                         
                     </tr>
                 </thead>

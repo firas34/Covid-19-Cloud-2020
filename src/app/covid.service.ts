@@ -104,7 +104,7 @@ export class CovidService {
     return this._http.get<Day[]>(this.dayOneUrl+slug);
   }
 
-  updateCountrySummary(countrySummary: CountrySummary){
+  updateCountrySummary(countrySummary: CountrySummary){    
     this.firestore.collection("countries").doc(countrySummary.Slug).collection('data').doc('countrySummary').set({
       Country: countrySummary.Country,
       Slug: countrySummary.Slug,
@@ -122,7 +122,7 @@ export class CovidService {
     return this.firestore.collection("countries").doc(slug).collection('data').doc('countrySummary').valueChanges();
   }
 
-  /* -------- To get the statistics to the 7 days, we will need data of 8 days ( we are doing substraction ) ----------*/
+  /* -------- To get the statistics to the 7 days, we will need data of 8 days ( then we do substraction ) ----------*/
   getAllByCountryBy8Days( slug: string){
     let today = new Date().toISOString().slice(0, 10);
     let eightDaysAgo = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);;
@@ -164,6 +164,11 @@ export class CovidService {
     return this.firestore.collection("news").doc(slug).valueChanges();
   }
 
+  //Get eligible users who can add news
+  getEligibleUsers(){
+    return this.firestore.collection("eligibleUsers").doc('data').valueChanges();
+  }
+
   addNews(news:News){
     let data1;
     //Get old news, push the new one to the List
@@ -199,11 +204,6 @@ export class CovidService {
          }, {merge: true});
        }
     }, 1000 );
-
-
-    
     
   }
-
-
 }

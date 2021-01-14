@@ -25,12 +25,13 @@ export class WorldwideComponent implements OnInit {
   newsDates:string[];
   newsUsers:User[];
   newsLength:number=0;
-
   user:User;
+  isEligibleUser: boolean=false;
   // if user is signed in:
   isUser: boolean = false;
   day = new Date(Date.now()).toString().split(' ').splice(1,4).reverse().join(' ');
   news:News[]; //[new News(this.covidService.getUser(),this.day,"News","worldwide")]
+  
   predicateBy(prop){
     return function(a,b){
        if (a[prop] > b[prop]){
@@ -142,6 +143,18 @@ export class WorldwideComponent implements OnInit {
   ngOnInit(): void {
 
     //For challenge2: News
+        // User eligibility
+    this.covidService.getEligibleUsers().subscribe(data=>{
+      for (let i=0;i<data['email'].length;i++){
+        if (this.user.email == data['email'][i]){
+          this.isEligibleUser = true;
+          console.log("This user is eligble to add news");
+          break;          
+        }
+        
+      }
+      
+    })
     this.covidService.getNews("worldwide").subscribe(data=>{
       console.log(data);
       this.newsDescriptions=data['description'];
@@ -203,8 +216,7 @@ export class WorldwideComponent implements OnInit {
       }
       //Final step to get the right labels list
       this.barChartLabels.reverse();
-      /* let day = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
-      this.barChartLabels.push(day); */
+      
     })
 
 
@@ -244,13 +256,6 @@ export class WorldwideComponent implements OnInit {
       this.countriesSummary = data["Countries"];          
     });
     //------------------------------------------------------ // 
-
-    
-
-
-  
-    
-
 
   }
 

@@ -13,7 +13,7 @@ export class AddNewsComponent implements OnInit {
   country: string; // Slug
   day = new Date().toISOString().slice(0, 10);
   countries:string[]=[]; // List of all slugs
-  newsModel: News= new News(this.covidService.getUser(),this.day,"News","worldwide");
+  newsModel: News= new News(this.covidService.getUser(),this.day,"","worldwide");
   alert: boolean;
   constructor( private covidService: CovidService) { }
 

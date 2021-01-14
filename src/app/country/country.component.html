@@ -1,3 +1,7 @@
+<div >
+    <app-signin></app-signin>
+</div>
+
 <div class="text-center mt-5 ml-2">
     <h3>
         <img style="width: 2%;"src="https://firebasestorage.googleapis.com/v0/b/covidstats-eec61.appspot.com/o/covid_logo.png?alt=media&token=f2bfcd0a-edb3-43b1-9b9e-09e6655363ef" alt="Hello">
@@ -6,17 +10,17 @@
     <h5 class="font-weight-bold text-secondary">Live Updates and Statistics</h5>
 
     <div  style="width: 78%;color: white; " class="font-weight-bold p-2 bg-dark text-center container mb-2">
-        <a  style="color: blue;" routerLink="/"> Worldwide </a> > {{countrySummary.Country}}
+        <a  style="color: #33B2FF;" routerLink="/"> Worldwide </a> > {{countrySummary.Country}}
     </div> 
 
 
     <!-- Display News -->
     <div *ngIf="newsLength" style="width: 78%" class="container mb-2">
-        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">{{countrySlug}} News: </div>
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">{{countrySummary.Country}} News: </div>
     </div>  
-    <div *ngIf="newsLength" class="card mb-5" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;">
+    <div *ngIf="newsLength" class="card mb-5" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;background-color: #f5faff">
     <div *ngFor="let item of arrayOne(newsLength); let i = index;" class="text-center text-left mt-5 ml-2">
-        <div class="card" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;">
+        <div class="card" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%; background-color:#dbedff;border-radius: 15px;">
             <div class="card-body">
                 <div class="row">
                 <h5 class="text-left col-6" style="color: brown;">{{newsUsers[i]['displayName']}}</h5>
