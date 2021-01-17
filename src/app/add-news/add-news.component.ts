@@ -18,7 +18,6 @@ export class AddNewsComponent implements OnInit {
   constructor( private covidService: CovidService) { }
 
   ngOnInit(): void {
-    console.log(this.countries);
     
     this.alert=false;
     this.covidService.getCountries().subscribe(data=>{
@@ -32,7 +31,6 @@ export class AddNewsComponent implements OnInit {
   submit(){
     this.covidService.addNews(this.newsModel)
     this.alert=true;
-    console.log(this.newsModel);
   }
 
 }

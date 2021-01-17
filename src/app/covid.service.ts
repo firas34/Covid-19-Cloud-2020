@@ -70,7 +70,6 @@ export class CovidService {
     return this._http.get<Global>(this.apiUrl);
   }
 
-
   getGlobalBySevenDays(){
     let today = new Date().toISOString().slice(0, 10);
     let sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);;
@@ -134,18 +133,18 @@ export class CovidService {
     return this._http.get<any[]>(url, {params: params});
   }
 
-  getCountryFrom13April(slug: string){
+  // Get all data for a country, the in the Country.ts, identify the first case's day.
+  getCountryStatsFromStart(slug: string){
     let today = new Date().toISOString().slice(0, 10);
     today = String(today) + 'T00:00:00Z';
-    let startDay = '2020-04-13T00:00:00Z';
+    let startDay = '2020-01-22T00:00:00Z';
     var url = 'https://api.covid19api.com/total/country/'+slug;
     let params = new HttpParams().append('from', startDay);
     params = params.append('to', today);
     return this._http.get<any[]>(url, {params: params});
+
   }
 
-
-  
   updateCountryBy7Days(slug:string,newDeaths: number[],newRecovered: number[], newCases: number[]){
     this.firestore.collection("countries").doc(slug).collection('data').doc('countryBy7Days').set({
       newDeaths: newDeaths,
@@ -153,12 +152,25 @@ export class CovidService {
       newCases: newCases,
       Date: new Date().toISOString().slice(0,10)
     }, {merge: true});
-  }
+  } 
 
   getCountryBy7Days(slug: string){
     return this.firestore.collection("countries").doc(slug).collection('data').doc('countryBy7Days').valueChanges();
   }
 
+  updateCountryFromDayFirstCase(slug:string,newDeaths: number[],newRecovered: number[], newCases: number[], firstDay:string){
+    this.firestore.collection("countries").doc(slug).collection('data').doc('countryFromFirstCase').set({
+      newDeaths: newDeaths,
+      newRecovered: newRecovered,
+      newCases: newCases,
+      firstDay: firstDay,
+      Date: new Date().toISOString().slice(0,10)
+    }, {merge: true});
+  }
+
+  getCountryFromDayFirstCase(slug: string){
+    return this.firestore.collection("countries").doc(slug).collection('data').doc('countryFromFirstCase').valueChanges();
+  }
 
   getNews(slug:string){
     return this.firestore.collection("news").doc(slug).valueChanges();
@@ -180,9 +192,7 @@ export class CovidService {
     // After 1 sec, the data from above is ready 
     setTimeout( () => { 
 
-      if(data1 == null ){
-        console.log("VIDE");
-        
+      if(data1 == null ){        
          this.firestore.collection("news").doc(news.Country).set({
            user: [news.User],
            date: [news.Date],

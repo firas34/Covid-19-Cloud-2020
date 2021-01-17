@@ -30,6 +30,8 @@ export class CountryComponent implements OnInit {
   newRecovered: number[]=[];
   newCases: number[]=[];
 
+
+  firstCaseDay:string="";
   //Pie Chart
   PieChart=[];
   pieData=[];
@@ -122,13 +124,11 @@ export class CountryComponent implements OnInit {
     }
   }
 
-
   //Used in the loop to display News
   arrayOne(n: number): any[] {
     return Array(n);
   }
 
-  
   ngOnInit(): void {
 
     
@@ -138,11 +138,8 @@ export class CountryComponent implements OnInit {
       this.countrySlug = params.get('country');
     })     
 
-
-    
     //For challenge2: News
     this.covidService.getNews(this.countrySlug).subscribe(data=>{
-      console.log(data);
       if (data != null){
         this.newsDescriptions=data['description'];
         this.newsDates=data['date'];
@@ -195,11 +192,8 @@ export class CountryComponent implements OnInit {
       
     })
 
-
-
-
     var todayDate = new Date().toISOString().slice(0,10);
-    this.covidService.getCountryBy7Days(this.countrySlug,).subscribe(data=>{
+    this.covidService.getCountryBy7Days(this.countrySlug).subscribe(data=>{
         if (data != undefined && data['Date']==todayDate){
             console.log('RETREIVE FROM FIRESTORE  (7days) ');
             this.newDeaths = data["newDeaths"];
@@ -233,36 +227,71 @@ export class CountryComponent implements OnInit {
         
       });
 
-    
+      var todayDate = new Date().toISOString().slice(0,10);
+      this.covidService.getCountryFromDayFirstCase(this.countrySlug).subscribe(data=>{
+          if (data != undefined && data['Date']==todayDate){
+              console.log('RETREIVE FROM FIRESTORE  (From day of the first case) ');
+            
+              this.firstCaseDay = data["firstDay"];
 
-    // Line Chart: --------------------------------------------//
-    this.covidService.getCountryFrom13April(this.countrySlug).subscribe(data=>{
+              this.newDeathsLine = data["newDeaths"];
+              this.newCasesLine = data["newCases"];
+              this.newRecoveredLine = data["newRecovered"];
 
-      // ------------------------------------------------ //
-      for (var j of data){
-        this.newDeathsLine.push(j["Deaths"]);
-        this.newCasesLine.push(j["Confirmed"]);
-        this.newRecoveredLine.push(j["Recovered"]);
-      }
-
-      this.lineChartData = [
-        {data: this.newDeathsLine, label: 'Total Deaths'},
-        {data: this.newRecoveredLine, label: 'Total Recovered'},
-        {data: this.newCasesLine, label: 'Total Cases'},
-      ]
-      //Line Label Array
-      let i = 0;
-      let day = new String;
-      var dayTest = new String();
-      while (dayTest.toString() != '4/13/2020'){
-        let day = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
-        this.lineChartLabels.push(day);
-        dayTest = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toLocaleString().split(',')[0];
-        ++i;
-      }
-      this.lineChartLabels.reverse();
-      
-    });
-                   
+              
+              
+              this.lineChartData = [
+                {data: this.newDeathsLine, label: 'Total Deaths'},
+                {data: this.newRecoveredLine, label: 'Total Recovered'},
+                {data: this.newCasesLine, label: 'Total Cases'},
+              ]
+              //Line Label Array
+              let i = 0;
+              let day = new String;
+              var dayTest = new String();
+              
+              while (dayTest.toString() != this.formatDate(this.firstCaseDay)){
+                let day = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
+                this.lineChartLabels.push(day);
+                dayTest = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toLocaleString().split(',')[0];
+                ++i;
+              }
+              this.lineChartLabels.reverse();
+          }else{
+              // Update Database from API
+              console.log('RETRIEVE FROM API & UPDATE DATABASE  (From day of the first case)');
+              this.covidService.getCountryStatsFromStart(this.countrySlug).subscribe(data=>{ 
+                  var index=0;
+                  while(data[index]["Confirmed"] == 0){
+                    index=index+1; // Pass to the next day
+                  }
+                  // New Starting Date
+                  // First Day: to be used in plotting the chart
+                  this.firstCaseDay = data[index]["Date"];
+                        
+                  // Extract the data corresponding to this country from the day that the first case was detected
+                  data=data.slice(index);
+                  
+                  for (var j of data){
+                    this.newDeathsLine.push(j["Deaths"]);
+                    this.newCasesLine.push(j["Confirmed"]);
+                    this.newRecoveredLine.push(j["Recovered"]);
+                  }
+                
+                  this.covidService.updateCountryFromDayFirstCase(this.countrySlug,this.newDeathsLine,this.newRecoveredLine,this.newCasesLine, this.firstCaseDay );              
+              });  
+          }
+          
+        });       
   }
+
+  formatDate(day: string){
+    //day of the form 2020-01-22T00:00:00Z
+    var year = day.slice(0,4);
+    var month = (Number(day.slice(5,7))).toString();
+    var day = (Number(day.slice(8,10))).toString();
+    return month+"/"+day+"/"+year;
+  }
+
+
 }

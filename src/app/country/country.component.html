@@ -15,9 +15,12 @@
 
 
     <!-- Display News -->
-    <div *ngIf="newsLength" style="width: 78%" class="container mb-2">
+    <div style="width: 78%" class="container mb-2">
         <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">{{countrySummary.Country}} News: </div>
     </div>  
+    <div *ngIf="!newsLength">
+        No News
+    </div>
     <div *ngIf="newsLength" class="card mb-5" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%;background-color: #f5faff">
     <div *ngFor="let item of arrayOne(newsLength); let i = index;" class="text-center text-left mt-5 ml-2">
         <div class="card" style="margin-left: 10em;margin-right: 10em; margin-top: 1%; margin-bottom: 1%; background-color:#dbedff;border-radius: 15px;">

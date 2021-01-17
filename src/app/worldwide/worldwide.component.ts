@@ -156,11 +156,12 @@ export class WorldwideComponent implements OnInit {
       
     })
     this.covidService.getNews("worldwide").subscribe(data=>{
-      console.log(data);
-      this.newsDescriptions=data['description'];
-      this.newsDates=data['date'];
-      this.newsUsers=data['user'];
-      this.newsLength=this.newsDescriptions.length;
+      if (data!=undefined){
+        this.newsDescriptions=data['description'];
+        this.newsDates=data['date'];
+        this.newsUsers=data['user'];
+        this.newsLength=this.newsDescriptions.length;
+      }
     });
 
     this.user = this.covidService.getUser();
