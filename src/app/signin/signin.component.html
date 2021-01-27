@@ -9,10 +9,13 @@
   </div>
 
   <div class="col-sm-6 text-right">
+    <button *ngIf="userSignedIn && !isEligibleUser" class="btn btn-info" routerLink="/addUserToAuthorized">Authenticate to add News</button>
+    &nbsp;
     <button *ngIf="userSignedIn; else signIn" class="btn btn-danger" (click)="covidService.signOut()">Sign Out</button>
     
     <ng-template #signIn>
       <button (click)="covidService.signInWithGoogle()" class="btn btn-info">Sign in </button>
     </ng-template>
+
   </div>
 </div>

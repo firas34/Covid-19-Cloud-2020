@@ -16,6 +16,7 @@ import { CountryComponent } from './country/country.component';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { AddNewsComponent } from './add-news/add-news.component';
 import { FormsModule } from '@angular/forms';
+import { AddEligibleUserComponent } from './add-eligible-user/add-eligible-user.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     SigninComponent,
     WorldwideComponent,
     CountryComponent,
-    AddNewsComponent
+    AddNewsComponent,
+    AddEligibleUserComponent
   ],
   imports: [
     BrowserModule,

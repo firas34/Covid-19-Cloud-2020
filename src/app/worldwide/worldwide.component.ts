@@ -241,12 +241,13 @@ export class WorldwideComponent implements OnInit {
       let i = 0;
       let day = new String;
       var dayTest = new String();
-      while (dayTest.toString() != '4/13/2020'){
+      while (dayTest.toString() != '4/13/2020' &&  dayTest.toString().slice(0,10) != '13/04/2020'){
         let day = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
         this.lineChartLabels.push(day);
-        dayTest = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toLocaleString().split(',')[0];
+        dayTest = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toLocaleString().split(',')[0];        
         ++i;
       }
+      console.log(dayTest.toString().slice(0,10));
       this.lineChartLabels.reverse();
       
     })

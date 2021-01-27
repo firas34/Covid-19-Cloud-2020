@@ -250,7 +250,7 @@ export class CountryComponent implements OnInit {
               let day = new String;
               var dayTest = new String();
               
-              while (dayTest.toString() != this.formatDate(this.firstCaseDay)){
+              while (dayTest.toString() != this.formatDateLinux(this.firstCaseDay) && dayTest.toString().slice(0,10)  != this.formatDateWindows(this.firstCaseDay)){
                 let day = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString().split(' ').splice(1,2).reverse().join(' ');
                 this.lineChartLabels.push(day);
                 dayTest = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toLocaleString().split(',')[0];
@@ -285,12 +285,20 @@ export class CountryComponent implements OnInit {
         });       
   }
 
-  formatDate(day: string){
+  formatDateLinux(day: string){
     //day of the form 2020-01-22T00:00:00Z
     var year = day.slice(0,4);
     var month = (Number(day.slice(5,7))).toString();
     var day = (Number(day.slice(8,10))).toString();
     return month+"/"+day+"/"+year;
+  }
+
+  formatDateWindows(day: string){
+    //day of the form 2020-01-22T00:00:00Z
+    var year = day.slice(0,4);
+    var month = (day.slice(5,7)).toString();
+    var day = (day.slice(8,10)).toString();
+    return day+"/"+month+"/"+year;
   }
 
 

@@ -10,6 +10,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SigninComponent implements OnInit {
   userSignedIn: boolean;
   user: User;
+  isEligibleUser: boolean=false;
+
 
   constructor(public covidService: CovidService) { }
 
@@ -18,6 +20,18 @@ export class SigninComponent implements OnInit {
     this.userSignedIn = this.covidService.userSignedIn();
     this.user = this.covidService.getUser();
     
+    
+    // User eligibility
+    this.covidService.getEligibleUsers().subscribe(data=>{
+    for (let i=0;i<data['email'].length;i++){
+      if (this.user.email == data['email'][i]){
+        this.isEligibleUser = true;
+        break;          
+      }
+      
+    }
+    
+  })
     
   }
 

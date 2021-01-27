@@ -1,0 +1,29 @@
+<div  class="text-danger mt-5 ml-2">
+
+    <div  *ngIf="success" class="container mb-2 alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Done! Now you can add News.</strong> 
+    </div>
+
+    <div  *ngIf="fail" class="container mb-2 alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Incorrect password!</strong> 
+    </div>
+    <div style="width: 78%" class="container mb-2">
+        <div  class="p-3 row align-items-center bg-light text-dark text-left font-weight-bold">To be eligible to add news, please enter the password provided by the admin: </div>
+    </div>  
+
+
+
+    <div style="width: 78%" class="container mb-2">
+    <form class="text-left">
+
+
+        <div class="form-group">
+            <label for="pass">Password: </label>
+            <textarea type="password" [(ngModel)]="passModel.Pass" [ngModelOptions]="{standalone: true}" class="form-control" cols="3" rows="1" id="pass"></textarea>
+        </div>
+
+        <button class="btn btn-primary mb-3" (click)="submit()">Submit</button>
+    </form>
+</div>  
+
+</div>

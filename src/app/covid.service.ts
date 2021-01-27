@@ -12,11 +12,13 @@ import { User } from './models/user.model';
 import { Router } from '@angular/router';
 import { News } from './models/news.model';
 import { v4 as uuidv4 } from 'uuid';
+import { Password } from './models/password.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CovidService {
+
   apiUrl = 'https://api.covid19api.com/summary';
   countriesUrl='https://api.covid19api.com/countries';
   dayOneUrl = 'https://api.covid19api.com/dayone/country/';
@@ -113,7 +115,7 @@ export class CovidService {
       TotalDeaths: countrySummary.TotalDeaths,
       NewRecovered: countrySummary.NewRecovered,
       TotalRecovered: countrySummary.TotalRecovered,
-      Date: countrySummary.Date
+      Date: new Date().toISOString().slice(0,10)
     }, {merge: true});
   }
 
@@ -216,4 +218,30 @@ export class CovidService {
     }, 1000 );
     
   }
+
+  addEligibleUser(passModel: Password, email1: string) {
+      let data1;
+      //Get old news, push the new one to the List
+      this.getEligibleUsers().subscribe(data=>{
+        data1 = data;
+      });
+
+      // After 1 sec, the data from above is ready 
+      setTimeout( () => { 
+
+        if(data1 == null ){        
+          this.firestore.collection("eligibleUsers").doc("data").set({
+            email: [email1],
+          }, {merge: true});
+        }else{
+         let email = data1['email'];
+          email.push(email1);
+          this.firestore.collection("eligibleUsers").doc("data").set({
+            email: email
+          }, {merge: true});
+        }
+      }, 1000 );
+  }
+
+
 }
